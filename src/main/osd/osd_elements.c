@@ -1636,6 +1636,23 @@ static void osdElementSys(osdElementParms_t *element)
 }
 #endif
 
+static void osdElementActionCameraRecording(osdElementParms_t *element)
+{
+    char actionCamStateStr[6];
+    switch(osdActionCamState)
+    {
+        case OSD_ACTION_CAM_ON:
+            strcpy(actionCamStateStr, "ON");
+        case OSD_ACTION_CAM_RECORDING:
+            strcpy(actionCamStateStr, "RECORD");
+        case OSD_ACTION_CAM_OFF:
+        default:
+            strcpy(actionCamStateStr, "OFF");
+
+    }
+    tfp_sprintf(element->buff, "CAM: %s", actionCamStateStr);
+}
+
 // Define the order in which the elements are drawn.
 // Elements positioned later in the list will overlay the earlier
 // ones if their character positions overlap
@@ -1735,6 +1752,7 @@ static const uint8_t osdElementDisplayOrder[] = {
     OSD_SYS_WARNINGS,
     OSD_SYS_VTX_TEMP,
     OSD_SYS_FAN_SPEED,
+    OSD_ACTION_CAM,
 };
 
 // Define the mapping between the OSD element id and the function to draw it
@@ -1869,6 +1887,7 @@ const osdElementDrawFn osdElementDrawFunction[OSD_ITEM_COUNT] = {
     [OSD_SYS_VTX_TEMP]            = osdElementSys,
     [OSD_SYS_FAN_SPEED]           = osdElementSys,
 #endif
+    [OSD_ACTION_CAM]              = osdElementActionCameraRecording,
 };
 
 // Define the mapping between the OSD element id and the function to draw its background (static part)
