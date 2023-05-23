@@ -1638,16 +1638,19 @@ static void osdElementSys(osdElementParms_t *element)
 
 static void osdElementActionCameraRecording(osdElementParms_t *element)
 {
-    char actionCamStateStr[6];
+    char actionCamStateStr[7];
     switch(osdActionCamState)
     {
         case OSD_ACTION_CAM_ON:
             strcpy(actionCamStateStr, "ON");
+            break;
         case OSD_ACTION_CAM_RECORDING:
             strcpy(actionCamStateStr, "RECORD");
+            break;
         case OSD_ACTION_CAM_OFF:
         default:
             strcpy(actionCamStateStr, "OFF");
+            break;
 
     }
     tfp_sprintf(element->buff, "CAM: %s", actionCamStateStr);
