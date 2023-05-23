@@ -1147,7 +1147,7 @@ STATIC_UNIT_TESTED bool osdProcessStats1(timeUs_t currentTimeUs)
     static timeUs_t lastTimeUs = 0;
     static timeUs_t osdStatsRefreshTimeUs;
     static timeUs_t osdAuxRefreshTimeUs = 0;
-    static uint8_t prevActionCamAuxChannelVal = 0;
+    static uint16_t prevActionCamAuxChannelVal = 0;
 
     bool refreshStatsRequired = false;
 
