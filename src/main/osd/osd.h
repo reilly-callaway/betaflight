@@ -186,6 +186,7 @@ typedef enum {
     OSD_SYS_WARNINGS,
     OSD_SYS_VTX_TEMP,
     OSD_SYS_FAN_SPEED,
+    OSD_ACTION_CAM,
     OSD_ITEM_COUNT // MUST BE LAST
 } osd_items_e;
 
@@ -377,6 +378,15 @@ extern float osdGForce;
 extern escSensorData_t *osdEscDataCombined;
 #endif
 extern uint16_t osdAuxValue;
+
+
+typedef enum {
+    OSD_ACTION_CAM_OFF,
+    OSD_ACTION_CAM_ON,
+    OSD_ACTION_CAM_RECORDING
+} osd_action_cam_state_t;
+
+extern uint8_t osdActionCamState;
 
 void osdInit(displayPort_t *osdDisplayPort, osdDisplayPortDevice_e displayPortDevice);
 bool osdUpdateCheck(timeUs_t currentTimeUs, timeDelta_t currentDeltaTimeUs);

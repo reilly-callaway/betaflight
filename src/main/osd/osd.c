@@ -150,9 +150,11 @@ static bool backgroundLayerSupported = false;
 escSensorData_t *osdEscDataCombined;
 #endif
 
+uint8_t osdActionCamState = OSD_ACTION_CAM_OFF;
+
 STATIC_ASSERT(OSD_POS_MAX == OSD_POS(63,31), OSD_POS_MAX_incorrect);
 
-PG_REGISTER_WITH_RESET_FN(osdConfig_t, osdConfig, PG_OSD_CONFIG, 12);
+PG_REGISTER_WITH_RESET_FN(osdConfig_t, osdConfig, PG_OSD_CONFIG, 13);
 
 PG_REGISTER_WITH_RESET_FN(osdElementConfig_t, osdElementConfig, PG_OSD_ELEMENT_CONFIG, 1);
 
@@ -1145,6 +1147,7 @@ STATIC_UNIT_TESTED bool osdProcessStats1(timeUs_t currentTimeUs)
     static timeUs_t lastTimeUs = 0;
     static timeUs_t osdStatsRefreshTimeUs;
     static timeUs_t osdAuxRefreshTimeUs = 0;
+    static uint8_t prevActionCamAuxChannelVal = 0;
 
     bool refreshStatsRequired = false;
 
@@ -1203,6 +1206,28 @@ STATIC_UNIT_TESTED bool osdProcessStats1(timeUs_t currentTimeUs)
             osdAuxValue = (constrain(rcData[auxChannel], PWM_RANGE_MIN, PWM_RANGE_MAX) - PWM_RANGE_MIN) * osdConfig()->aux_scale / PWM_RANGE;
             osdAuxRefreshTimeUs = currentTimeUs + REFRESH_1S;
         }
+    }
+
+    if (VISIBLE(osdElementConfig()->item_pos[OSD_ACTION_CAM])) {
+        // on "button release" we change states
+        // Corrsponds to non-active to active jump
+        const uint8_t auxChannel = 10;
+        
+        if (prevActionCamAuxChannelVal > 1200 && rcData[auxChannel] <= 1200)
+        {
+            // Go to next state
+            switch(osdActionCamState)
+            {
+                case OSD_ACTION_CAM_RECORDING:
+                case OSD_ACTION_CAM_OFF:
+                    osdActionCamState = OSD_ACTION_CAM_ON;
+                    break;
+                case OSD_ACTION_CAM_ON:
+                    osdActionCamState = OSD_ACTION_CAM_RECORDING;
+                    break;
+            }
+        }
+        prevActionCamAuxChannelVal = rcData[auxChannel];
     }
 
     lastTimeUs = currentTimeUs;
