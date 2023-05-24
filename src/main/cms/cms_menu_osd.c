@@ -169,6 +169,7 @@ const OSD_Entry menuOsdActiveElemsEntries[] =
     {"CAMERA FRAME",       OME_VISIBLE | DYNAMIC, NULL, &osdConfig_item_pos[OSD_CAMERA_FRAME]},
     {"TOTAL FLIGHTS",      OME_VISIBLE | DYNAMIC, NULL, &osdConfig_item_pos[OSD_TOTAL_FLIGHTS]},
     {"AUX VALUE",          OME_VISIBLE | DYNAMIC, NULL, &osdConfig_item_pos[OSD_AUX_VALUE]},
+    {"CAMERA RECORDING",   OME_VISIBLE | DYNAMIC, NULL, &osdConfig_item_pos[OSD_ACTION_CAM]},
     {"BACK",               OME_Back,    NULL, NULL},
     {NULL,                 OME_END,     NULL, NULL}
 };
